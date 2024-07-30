@@ -5,13 +5,6 @@ import re
 from urllib.parse import urlparse, parse_qs
 import json
 
-# Set up logging
-logging.basicConfig(
-    filename=f'output/download_log_{datetime.now().strftime("%Y-%m-%d")}.txt',
-    level=logging.INFO,
-    format='%(asctime)s - %(levelname)s - %(message)s'
-)
-
 def extract_filename_from_text(text, default):
     # Regex to extract date and any following info up to the first parenthesis
     match = re.search(r'(\d{1,2}/\d{1,2}/\d{4})[^()]*', text)
@@ -23,33 +16,35 @@ def extract_filename_from_text(text, default):
 
 def download_facebook_video(video_url, output_filename):
     # Define the yt-dlp command with output template
-    command = ['yt-dlp', '-o', output_filename, video_url]
+    command = f'yt-dlp -o "{output_filename}" "{video_url}"'
     
-    while True:
-        try:
-            # Run the yt-dlp command
-            result = subprocess.run(command, capture_output=True, text=True)
-            print(f"Downloading...: {video_url}")
-            
-            # Log the output
-            if result.returncode == 0:
-                logging.info(f"Successfully downloaded video: {video_url}")
-                print(f"Successfully downloaded: {video_url}")
-                break
-            else:
-                logging.error(f"Failed to download video: {video_url}\n{result.stderr}")
-                print(f"Failed to download: {video_url}")
-                break
-        except Exception as e:
-            logging.error(f"Error downloading video: {video_url}\n{str(e)}")
-            print(f"Error downloading: {video_url}")
-            break
+    try:
+        # Run the yt-dlp command
+        result = subprocess.run(command, shell=True)
+        
+        # Log the output
+        if result.returncode == 0:
+            logging.info(f"Successfully downloaded video: {video_url}")
+            print(f"Successfully downloaded: {video_url}")
+        else:
+            logging.error(f"Failed to download video: {video_url}\n{result.stderr}")
+            print(f"Failed to download: {video_url}")
+    except Exception as e:
+        logging.error(f"Error downloading video: {video_url}\n{str(e)}")
+        print(f"Error downloading: {video_url}")
 
 def get_video_id_from_url(url):
     parsed_url = urlparse(url)
     return parsed_url.path.split('/')[-1]
 
 if __name__ == "__main__":
+    # Set up logging
+    logging.basicConfig(
+        filename=f'output/app.log',
+        level=logging.INFO,
+        format='%(asctime)s - %(levelname)s - %(message)s',
+    )
+
     # Input data
     videos = [
         {
@@ -66,8 +61,6 @@ if __name__ == "__main__":
         
         # Extract filename from text or use video ID as default
         output_filename = extract_filename_from_text(text, video_id) + ".%(ext)s"
-
-        print(output_filename)
         
         # Download the video
         download_facebook_video(url, output_filename)

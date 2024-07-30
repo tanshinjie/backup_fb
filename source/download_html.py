@@ -45,8 +45,8 @@ while True:
 
 # Save the page as HTML
 html_content = driver.page_source
-file_name = "facebook_page_2.html"
-output_file_path = resolve_path_to_file(f"../output/{file_name}")
+file_name = "facebook_page.html"
+output_file_path = resolve_path_to_file(f"output/{file_name}")
 with open(output_file_path, "w", encoding="utf-8") as file:
     file.write(html_content)
 

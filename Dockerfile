@@ -1,17 +1,27 @@
-# Use the tnk4on/yt-dlp image as the base
-FROM tnk4on/yt-dlp
+# Use the base image with yt-dlp pre-installed
+FROM tnk4on/yt-dlp:latest
 
-# Set the working directory inside the container
+USER root
+
+# Set the working directory in the container
 WORKDIR /app
 
-# Copy the Python script into the container
-COPY source ./source
-COPY start.sh ./start.sh
-COPY requirements.txt ./requirements.txt
+# Install Python 3 and pip
+RUN apk add --no-cache python3 py3-pip
 
-# Install any additional Python dependencies
-RUN pip install --no-cache-dir -r requirements.txt
+# Copy your Python script into the container
+COPY . $HOME/app/
 
-# Command to run the Python script
-# CMD ["python3", "source/main.py"]
-CMD ["tail", "-f", "/dev/null"]
+WORKDIR $HOME/app/
+
+# Install any required Python packages
+# If you have a requirements.txt file, uncomment the following lines:
+# COPY requirements.txt .
+RUN pip3 install --no-cache -r requirements.txt
+RUN yt-dlp -U
+RUN mkdir videos
+
+ENTRYPOINT ["/usr/bin/env"]
+
+# Set the default command to run your Python script
+CMD ["python3", "source/main.py"]

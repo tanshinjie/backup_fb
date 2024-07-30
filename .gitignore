@@ -1,5 +1,11 @@
 secrets
 output
+videos
+
 bin
 include
 .DS_Store
+
+*/**/__pycache__
+
+.env

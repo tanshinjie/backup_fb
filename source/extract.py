@@ -26,8 +26,7 @@ def extract_links_and_labels(html_content):
 
 if __name__ == "__main__":
     # File path to the local HTML file
-    file_path = resolve_path_to_file("../output/facebook_page.html")  # Replace with the actual file path
-
+    file_path = resolve_path_to_file("output/facebook_page.html")
 
     # Read the HTML content from the local file
     with open(file_path, 'r', encoding='utf-8') as file:
@@ -37,7 +36,7 @@ if __name__ == "__main__":
     matching_data = extract_links_and_labels(html_content)
 
     # File path to save the extracted data as a JSON file
-    json_file_path = resolve_path_to_file(f"../output/extracted_link_{datetime.now().strftime("%Y-%m-%d")}.json")  # You can change the file name if needed
+    json_file_path = resolve_path_to_file(f"output/extracted_link_{datetime.now().strftime("%Y-%m-%d")}.json")  # You can change the file name if needed
 
 
     # Save the data to a JSON file

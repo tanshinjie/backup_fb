@@ -2,6 +2,7 @@ requests
 beautifulsoup4
 google-auth
 selenium
+python-dotenv
 google-auth-oauthlib
 google-auth-httplib2
 google-api-python-client

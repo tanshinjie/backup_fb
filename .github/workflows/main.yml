@@ -1,0 +1,47 @@
+name: Build and Deploy to Google Cloud Artifact Registry
+
+# on:
+#   push:
+#     branches:
+#       - main # Adjust this to your default branch
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v1
+        with:
+          credentials_json: ${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}
+
+      - name: Set up Google Cloud SDK
+        uses: google-github-actions/setup-gcloud@v1
+        with:
+          project_id: enhanced-idiom-406902
+          service_account_key: ${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}
+
+      - name: Configure Docker to use the Artifact Registry repository
+        run: gcloud auth configure-docker asia-southeast1-docker.pkg.dev
+
+      # TODO
+      # - name: Build and push Docker image
+      #   env:
+      #     PARENT_FOLDER_ID: ${{ vars.PARENT_FOLDER_ID }}
+      #     FB_PAGE: ${{ vars.DB_CONNECTION_STRING }}
+      #   run: |
+      #     IMAGE_NAME=asia-southeast1-docker.pkg.dev/enhanced-idiom-406902/YOUR_REPOSITORY/YOUR_IMAGE_NAME
+      #     docker buildx build --platform linux/amd64 \
+      #       --build-arg API_KEY=${API_KEY} \
+      #       --build-arg DB_CONNECTION_STRING=${DB_CONNECTION_STRING} \
+      #       -t $IMAGE_NAME:latest \
+      #       --push .
