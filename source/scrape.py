@@ -45,6 +45,26 @@ try:
 except:
     print("No modal found or already closed.")
 
+
+iteration = 0
+# Scroll to the bottom of the page
+last_height = driver.execute_script("return document.body.scrollHeight")
+while True:
+    # Scroll down to the bottom
+    driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+
+    # Wait for new page segment to load
+    time.sleep(2)  # You can adjust the sleep time as needed
+
+    # Calculate new scroll height and compare with last scroll height
+    new_height = driver.execute_script("return document.body.scrollHeight")
+    if new_height == last_height or iteration = 10:
+        break
+    last_height = new_height
+    iteration += 1
+
+
+
 # Save the page as HTML
 html_content = driver.page_source
 file_name = "facebook_page.html"
