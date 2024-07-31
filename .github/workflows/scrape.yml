@@ -6,20 +6,21 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check out this repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Set up Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4
         with:
           python-version: "3.12"
       - name: Installed package list
         run: apt list --installed
       - name: Remove Chrome
         run: sudo apt purge google-chrome-stable
-      - name: Remove default Chromium
-        run: sudo apt purge chromium-browser
-      - name: Install a new Chromium
-        run: sudo apt install -y chromium-browser
+      # - name: Remove default Chromium
+      #   run: sudo apt purge chromium-browser
+      # - name: Install a new Chromium
+      #   run: sudo apt install -y chromium-browser
+
       - name: Install all necessary packages
-        run: pip install requests beautifulsoup4 webdriver-manager selenium chromedriver_autoinstaller
+        run: pip install requests beautifulsoup4 selenium chromedriver_autoinstaller
       - name: Run the scraping script
         run: python source/scrape.py
