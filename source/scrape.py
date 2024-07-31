@@ -3,6 +3,11 @@ from selenium import webdriver
 # from webdriver_manager.core.os_manager import ChromeType
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+import time
 import chromedriver_autoinstaller
 
 chromedriver_autoinstaller.install()  # Check if the current version of chromedriver exists
@@ -31,7 +36,7 @@ driver = webdriver.Chrome(options=chrome_options)
 driver.get("https://www.facebook.com/JSPWellnessBoneAlignme/live_videos")
 
 # Wait for the page to load and the modal to appear
-wait = WebDriverWait(driver, 10)
+wait = WebDriveWait(driver, 10)
 
 try:
     # Wait for the modal to appear and close it
