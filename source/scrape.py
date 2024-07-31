@@ -48,12 +48,11 @@ except:
 # Save the page as HTML
 html_content = driver.page_source
 file_name = "facebook_page.html"
-output_file_path = (f"output/{file_name}")
 
-with open(output_file_path, "w", encoding="utf-8") as file:
+with open(file_name, "w", encoding="utf-8") as file:
     file.write(html_content)
 
 # Close the WebDriver
 driver.quit()
 
-print(f"Page saved as '{output_file_path}'.")
+print(f"Page saved as '{file_name}'.")
