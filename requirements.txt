@@ -2,7 +2,7 @@ requests
 beautifulsoup4
 google-auth
 selenium
-python-dotenv
+webdriver-manager
 chromedriver_autoinstaller
 google-cloud-storage
 google-auth-oauthlib

@@ -28,9 +28,9 @@ options = [
     # "--disable-gpu",
     # "--window-size=1920,1200",
     # "--ignore-certificate-errors",
-    # "--disable-extensions",
-    # "--no-sandbox",
-    # "--disable-dev-shm-usage"
+    "--disable-extensions",
+    "--no-sandbox",
+    "--disable-dev-shm-usage"
 ]
 for option in options:
     chrome_options.add_argument(option)
