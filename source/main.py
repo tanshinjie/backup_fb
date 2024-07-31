@@ -1,5 +1,5 @@
 from datetime import datetime
-from upload import initialize_drive_service, upload_file
+from upload import initialize_drive_service, upload_large_file_to_bucket
 from download import extract_filename_from_text, download_facebook_video, get_video_id_from_url
 from utils import resolve_path_to_file
 import json
@@ -18,6 +18,11 @@ if __name__ == "__main__":
         level=logging.INFO,
         format='%(asctime)s - %(levelname)s - %(message)s',
     )
+
+    # Set the environment variable for the service account key file
+    os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "secrets/enhanced-idiom-406902-869a4c2e7a5f.json"
+    bucket_name = "jsp_fb"
+
     # Input data
     videos = []
 
@@ -30,24 +35,26 @@ if __name__ == "__main__":
         video_id = get_video_id_from_url(url)
         
         # Extract filename from text or use video ID as default
-        output_filename = "videos/" + extract_filename_from_text(text, video_id)
+        output_filename = extract_filename_from_text(text, video_id) + ".mp4"
+        output_file_path = "videos/" + output_filename
         
         print("Step 1: Download", video_id)
         # Download the video
-        download_facebook_video(url, output_filename + ".mp4")
+        download_facebook_video(url, output_file_path)
 
-        if (os.path.exists(output_filename + ".mp4")):
-            output_filename = output_filename + ".mp4"
+        if (os.path.exists(output_file_path)):
 
-            print("Step 2: Upload to Google Drive")
-            # Upload to gdrive
-            service = initialize_drive_service()
-            response = upload_file(service, output_filename)
-            print(response)
+            print("Step 2: Upload to GCP Bucket")
+            # Upload to bucket
+            upload_large_file_to_bucket(bucket_name, output_file_path, output_filename)
+
+            # service = initialize_drive_service()
+            # response = upload_file(service, output_filename)
+            # print(response)
 
             print("Step 3: Cleanup local copy")
             # Delete the file
-            os.remove(output_filename)
+            os.remove(output_file_path)
 
         else:
             print(f"No mp4 found for: {output_filename}. Need to manual upload.")

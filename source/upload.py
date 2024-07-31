@@ -3,6 +3,7 @@ from googleapiclient.discovery import build
 from googleapiclient.http import MediaFileUpload
 import os
 import io
+from google.cloud import storage
 
 # Path to the service account key file
 SERVICE_ACCOUNT_FILE = 'secrets/sa_credentials.json'
@@ -42,7 +43,47 @@ def upload_file(service, file_path, chunk_size=256 * 1024):
     print("Upload complete")
     return response
 
+# Initialize the storage client
+def initialize_storage_client():
+    client = storage.Client()
+    return client
+
+def upload_file_to_bucket(bucket_name, file_path, destination_blob_name):
+    # Initialize the storage client
+    client = initialize_storage_client()
+    
+    # Get the bucket
+    bucket = client.bucket(bucket_name)
+    
+    # Create a new blob in the bucket
+    blob = bucket.blob(destination_blob_name)
+    
+    # Upload the file
+    blob.upload_from_filename(file_path)
+    
+    print(f"File {file_path} uploaded to {destination_blob_name}.")
+
+def upload_large_file_to_bucket(bucket_name, file_path, destination_blob_name, chunk_size=256*1024):
+    client = initialize_storage_client()
+    bucket = client.bucket(bucket_name)
+    blob = bucket.blob(destination_blob_name)
+    
+    # Set chunk size
+    blob.chunk_size = chunk_size  # Set to a multiple of 256 KB
+    
+    # Upload the file in chunks
+    blob.upload_from_filename(file_path)
+    print(f"Large file {file_path} uploaded to {destination_blob_name}.")
+
 if __name__ == "__main__":
-    service = initialize_drive_service()
-    response = upload_file(service, 'videos/27-7-2024_LIVE_P154_478139855159372.mp4')
-    print(response)
+    # service = initialize_drive_service()
+    # response = upload_file(service, 'videos/27-7-2024_LIVE_P154_478139855159372.mp4')
+    # print(response)
+
+    # Set the environment variable for the service account key file
+    os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "secrets/enhanced-idiom-406902-869a4c2e7a5f.json"
+    bucket_name = "jsp_fb"
+    file_path = "test.txt"
+    destination_blob_name = "test-uploaded.txt"
+
+    upload_file_to_bucket(bucket_name, file_path, destination_blob_name)

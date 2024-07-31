@@ -16,7 +16,6 @@ WORKDIR $HOME/app/
 
 # Install any required Python packages
 # If you have a requirements.txt file, uncomment the following lines:
-# COPY requirements.txt .
 RUN pip3 install --no-cache -r requirements.txt
 RUN yt-dlp -U
 RUN mkdir videos
