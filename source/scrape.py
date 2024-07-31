@@ -58,7 +58,7 @@ while True:
 
     # Calculate new scroll height and compare with last scroll height
     new_height = driver.execute_script("return document.body.scrollHeight")
-    if new_height == last_height or iteration = 10:
+    if new_height == last_height or iteration == 10:
         break
     last_height = new_height
     iteration += 1
