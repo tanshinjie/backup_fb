@@ -24,8 +24,7 @@ jobs:
         run: pip install requests beautifulsoup4 selenium chromedriver_autoinstaller
       - name: Run the scrape and extract script
         run: |
-          python source/scrape.py
-          python source/extract.py
+        python source/scrape.py
       - name: Commit and Push The Results From Python Selenium Actiom
         run: |
           git config --global user.name "tanshinjie"

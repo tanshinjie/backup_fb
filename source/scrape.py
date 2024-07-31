@@ -35,6 +35,7 @@ driver = webdriver.Chrome(options=chrome_options)
 # Load the Facebook page
 driver.get("https://www.facebook.com/JSPWellnessBoneAlignme/live_videos")
 
+print('wait')
 # Wait for the page to load and the modal to appear
 wait = WebDriverWait(driver, 10)
 
@@ -50,6 +51,7 @@ iteration = 0
 # Scroll to the bottom of the page
 last_height = driver.execute_script("return document.body.scrollHeight")
 while True:
+    print('scroll')
     # Scroll down to the bottom
     driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
 

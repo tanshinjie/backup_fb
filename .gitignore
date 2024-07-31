@@ -4,6 +4,8 @@ videos
 
 bin
 include
+lib
+pyvenv.cfg
 .DS_Store
 
 */**/__pycache__
