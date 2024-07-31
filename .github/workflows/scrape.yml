@@ -26,8 +26,8 @@ jobs:
         run: python source/scrape.py
       - name: Commit and Push The Results From Python Selenium Actio
         run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "tanshinjie"
+          git config --global user.email "shinjie.work@gmail.com"
           git add -A
-          git commit -m "GitHub Actions Results added"
+          git commit -m "update html"
           git push
