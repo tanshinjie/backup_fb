@@ -27,7 +27,28 @@ for option in options:
 
 driver = webdriver.Chrome(options=chrome_options)
 
-driver.get('http://nytimes.com')
-print(driver.title)
-with open('./GitHub_Action_Results.txt', 'w') as f:
-    f.write(f"This was written with a GitHub action {driver.title}")
+# Load the Facebook page
+driver.get("https://www.facebook.com/JSPWellnessBoneAlignme/live_videos")
+
+# Wait for the page to load and the modal to appear
+wait = WebDriverWait(driver, 10)
+
+try:
+    # Wait for the modal to appear and close it
+    close_button = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "div[aria-label='Close']")))
+    close_button.click()
+except:
+    print("No modal found or already closed.")
+
+# Save the page as HTML
+html_content = driver.page_source
+file_name = "facebook_page.html"
+output_file_path = (f"output/{file_name}")
+
+with open(output_file_path, "w", encoding="utf-8") as file:
+    file.write(html_content)
+
+# Close the WebDriver
+driver.quit()
+
+print(f"Page saved as '{output_file_path}'.")
