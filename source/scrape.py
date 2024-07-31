@@ -4,8 +4,8 @@ from webdriver_manager.core.os_manager import ChromeType
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
 
-print(ChromeDriverManager(chrome_type=ChromeType.CHROMIUM).install())
-chrome_service = Service(executable_path="/usr/local/bin/chromium")
+executable_path = ChromeDriverManager(chrome_type=ChromeType.CHROMIUM).install()
+chrome_service = Service(executable_path=executable_path)
 
 chrome_options = Options()
 options = [
