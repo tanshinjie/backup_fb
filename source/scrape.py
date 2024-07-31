@@ -36,7 +36,7 @@ driver = webdriver.Chrome(options=chrome_options)
 driver.get("https://www.facebook.com/JSPWellnessBoneAlignme/live_videos")
 
 # Wait for the page to load and the modal to appear
-wait = WebDriveWait(driver, 10)
+wait = WebDriverWait(driver, 10)
 
 try:
     # Wait for the modal to appear and close it
