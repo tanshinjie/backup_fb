@@ -37,8 +37,11 @@ for option in options:
 
 driver = webdriver.Chrome(options=chrome_options)
 
+driver.get("http://github.com")
+print(driver.title)
 # Load the Facebook page
 driver.get("https://www.facebook.com/JSPWellnessBoneAlignme/live_videos")
+print(driver.title)
 
 print('wait')
 # Wait for the page to load and the modal to appear
