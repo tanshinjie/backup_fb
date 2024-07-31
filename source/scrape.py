@@ -9,6 +9,9 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import time
 import chromedriver_autoinstaller
+from pyvirtualdisplay import Display
+display = Display(visible=0, size=(1920, 1200))  
+display.start()
 
 chromedriver_autoinstaller.install()  # Check if the current version of chromedriver exists
                                       # and if it doesn't exist, download it automatically,
@@ -19,13 +22,15 @@ chromedriver_autoinstaller.install()  # Check if the current version of chromedr
 
 chrome_options = Options()
 options = [
-    "--headless",
-    "--disable-gpu",
-    "--window-size=1920,1200",
-    "--ignore-certificate-errors",
-    "--disable-extensions",
-    "--no-sandbox",
-    "--disable-dev-shm-usage"
+    "--window-size=1200,1200",
+    "--ignore-certificate-errors"
+    # "--headless",
+    # "--disable-gpu",
+    # "--window-size=1920,1200",
+    # "--ignore-certificate-errors",
+    # "--disable-extensions",
+    # "--no-sandbox",
+    # "--disable-dev-shm-usage"
 ]
 for option in options:
     chrome_options.add_argument(option)

@@ -21,7 +21,9 @@ jobs:
       #   run: sudo apt install -y chromium-browser
 
       - name: Install all necessary packages
-        run: pip install requests beautifulsoup4 selenium chromedriver_autoinstaller
+        run: pip install requests beautifulsoup4 selenium chromedriver_autoinstaller pyvirtualdisplay
+      - name: Install xvfb
+        run: sudo apt-get install xvfb
       - name: Run the scrape script
         run: python source/scrape.py
       # - name: Run the extract script
