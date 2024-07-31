@@ -4,11 +4,7 @@ from googleapiclient.http import MediaFileUpload
 import os
 import io
 from google.cloud import storage
-
-# Path to the service account key file
-SERVICE_ACCOUNT_FILE = 'secrets/sa_credentials.json'
-SCOPES = ['https://www.googleapis.com/auth/drive.file']
-PARENT_FOLDER_ID="1EW0JQCf9poHdjMk0dK8gyU2lTY7fhcTP"
+from dotenv import load_dotenv
 
 def initialize_drive_service():
     # creds = None
@@ -76,14 +72,22 @@ def upload_large_file_to_bucket(bucket_name, file_path, destination_blob_name, c
     print(f"Large file {file_path} uploaded to {destination_blob_name}.")
 
 if __name__ == "__main__":
+    load_dotenv()
+
+    # Upload to Google Drive
+    # # Path to the service account key file
+    # SERVICE_ACCOUNT_FILE = os.environ['GDRIVE_CREDENDIALS_FILE']
+    # SCOPES = ['https://www.googleapis.com/auth/drive.file']
+    # PARENT_FOLDER_ID=os.environ['PARENT_FOLDER_ID']
     # service = initialize_drive_service()
     # response = upload_file(service, 'videos/27-7-2024_LIVE_P154_478139855159372.mp4')
     # print(response)
 
+    # Upload to Google Bucket
     # Set the environment variable for the service account key file
-    os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "secrets/enhanced-idiom-406902-869a4c2e7a5f.json"
-    bucket_name = "jsp_fb"
-    file_path = "test.txt"
-    destination_blob_name = "test-uploaded.txt"
+    os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = os.environ['SA_CREDENTIALS_FILE']
+    bucket_name = os.environ['GCP_BUCKET_NAME']
+    file_path = ""
+    destination_blob_name = ""
 
     upload_file_to_bucket(bucket_name, file_path, destination_blob_name)

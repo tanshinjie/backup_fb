@@ -9,7 +9,8 @@ import time
 from utils import resolve_path_to_file
 
 # Initialize the WebDriver (e.g., Chrome)
-service = Service(executable_path="/Users/shinjie/shinjie-workspace/backup-fb/chromedriver-mac-arm64/chromedriver")
+chromedriver_path = resolve_path_to_file("../chromedriver-mac-arm64/chromedriver")
+service = Service(executable_path=chromedriver_path)
 options = Options()
 options.add_argument("--headless=new")
 driver = webdriver.Chrome(service=service, options=options)
@@ -46,7 +47,7 @@ while True:
 # Save the page as HTML
 html_content = driver.page_source
 file_name = "facebook_page.html"
-output_file_path = resolve_path_to_file(f"output/{file_name}")
+output_file_path = resolve_path_to_file(f"../output/{file_name}")
 with open(output_file_path, "w", encoding="utf-8") as file:
     file.write(html_content)
 

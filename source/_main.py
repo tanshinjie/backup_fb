@@ -6,40 +6,12 @@ import json
 import os
 import logging
 from dotenv import load_dotenv
-import sys
-
-def validate_fields(data):
-    required_fields = ["creation_time", "description", "permalink_url", "id"]
-    for index, item in enumerate(data):
-        for field in required_fields:
-            if field not in item:
-                print(f"Missing required field '{field}' in item {index}")
-                return False
-    return True
-
 
 if __name__ == "__main__":
     load_dotenv()
 
-    if len(sys.argv) != 2:
-        print("Usage: main.py '<JSON_STRING>'")
-        sys.exit(1)
-
-    try:
-        data = json.loads(json_str)
-    except json.JSONDecodeError as e:
-        print(f"Invalid JSON: {e}")
-        sys.exit(1)
-
-    if validate_fields(data):
-        print("All required fields are present.")
-    else:
-        print("Validation failed.")
-
-    json_str = sys.argv[1]
-    
-    # file_path = "../videos_data.json"
-    # input_file_path = resolve_path_to_file(file_path)
+    file_path = f'../output/extracted_links_{datetime.now().strftime("%Y-%m-%d")}.json'
+    input_file_path = resolve_path_to_file(file_path)
 
     log_file_path = resolve_path_to_file(f'../output/app.log')
 
@@ -54,14 +26,14 @@ if __name__ == "__main__":
     bucket_name = os.environ["GCP_BUCKET_NAME"]
 
     # Input data
-    videos = json.load(json_str)
+    videos = []
 
-    # with open(input_file_path) as f:
-    #     videos = json.load(f)
+    with open(input_file_path) as f:
+        videos = json.load(f)
     
     for video in videos:
-        url = "https://www.facebook.com" + video["permalink_url"]
-        text = video["description"]
+        url = video["Link"]
+        text = video["Text"]
         video_id = get_video_id_from_url(url)
         
         # Extract filename from text or use video ID as default
@@ -77,6 +49,10 @@ if __name__ == "__main__":
             print("Step 2: Upload to GCP Bucket")
             # Upload to bucket
             upload_large_file_to_bucket(bucket_name, output_file_path, output_filename)
+
+            # service = initialize_drive_service()
+            # response = upload_file(service, output_filename)
+            # print(response)
 
             print("Step 3: Cleanup local copy")
             # Delete the file

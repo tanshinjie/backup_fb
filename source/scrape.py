@@ -1,6 +1,4 @@
 from selenium import webdriver
-# from webdriver_manager.chrome import ChromeDriverManager
-# from webdriver_manager.core.os_manager import ChromeType
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.keys import Keys
@@ -16,9 +14,6 @@ display.start()
 chromedriver_autoinstaller.install()  # Check if the current version of chromedriver exists
                                       # and if it doesn't exist, download it automatically,
                                       # then add chromedriver to path
-
-# executable_path = ChromeDriverManager(chrome_type=ChromeType.CHROMIUM).install()
-# chrome_service = Service(executable_path=executable_path)
 
 chrome_options = Options()
 options = [
