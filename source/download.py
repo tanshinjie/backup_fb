@@ -11,7 +11,7 @@ def extract_filename_from_text(text, default):
     if match:
         filename = match.group(0).strip().replace('/', '-').replace(' ', '_') + "_" + default
     else:
-        filename = text.split('\n')[0] + "_" + default
+        filename = text.split('\n')[0].replace("\"", "").replace("\'", "")  + "_" + default
     return filename
 
 def download_facebook_video(video_url, output_filename):
