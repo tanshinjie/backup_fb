@@ -49,7 +49,7 @@ if __name__ == "__main__":
         # Extract filename from text or use video ID as default
         output_filename = extract_filename_from_text(text, video_id) + ".mp4"
         output_file_path = "videos/" + output_filename
-        
+
         print("Step 1: Download", video_id)
         # Download the video
         download_facebook_video(url, output_file_path)

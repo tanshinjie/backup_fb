@@ -9,7 +9,7 @@ def extract_filename_from_text(text, default):
     # Regex to extract date and any following info up to the first parenthesis
     match = re.search(r'(\d{1,2}/\d{1,2}/\d{4})[^()]*', text)
     if match:
-        filename = match.group(0).strip().replace('/', '-').replace(' ', '_') + "_" + default
+        filename = match.group(0).strip().replace('/', '-').replace(' ', '_').replace("\n", '').replace("\"", "").replace("\'", "") + "_" + default
     else:
         filename = text.split('\n')[0].replace("\"", "").replace("\'", "")  + "_" + default
     return filename
