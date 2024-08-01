@@ -10,9 +10,7 @@ WORKDIR /app
 RUN apk add --no-cache python3 py3-pip
 
 # Copy your Python script into the container
-COPY . $HOME/app/
-
-WORKDIR $HOME/app/
+COPY . .
 
 # Install any required Python packages
 # If you have a requirements.txt file, uncomment the following lines:

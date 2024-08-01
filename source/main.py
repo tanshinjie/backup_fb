@@ -6,7 +6,6 @@ import json
 import os
 import logging
 from dotenv import load_dotenv
-import sys
 
 def validate_fields(data):
     required_fields = ["creation_time", "description", "permalink_url", "id"]
@@ -21,25 +20,8 @@ def validate_fields(data):
 if __name__ == "__main__":
     load_dotenv()
 
-    if len(sys.argv) != 2:
-        print("Usage: main.py '<JSON_STRING>'")
-        sys.exit(1)
-
-    try:
-        data = json.loads(json_str)
-    except json.JSONDecodeError as e:
-        print(f"Invalid JSON: {e}")
-        sys.exit(1)
-
-    if validate_fields(data):
-        print("All required fields are present.")
-    else:
-        print("Validation failed.")
-
-    json_str = sys.argv[1]
-    
-    # file_path = "../videos_data.json"
-    # input_file_path = resolve_path_to_file(file_path)
+    file_path = "../videos.json"
+    input_file_path = resolve_path_to_file(file_path)
 
     log_file_path = resolve_path_to_file(f'../output/app.log')
 
@@ -54,10 +36,10 @@ if __name__ == "__main__":
     bucket_name = os.environ["GCP_BUCKET_NAME"]
 
     # Input data
-    videos = json.load(json_str)
+    videos = []
 
-    # with open(input_file_path) as f:
-    #     videos = json.load(f)
+    with open(input_file_path) as f:
+        videos = json.load(f)
     
     for video in videos:
         url = "https://www.facebook.com" + video["permalink_url"]
